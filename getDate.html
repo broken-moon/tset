@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			 let input = [
+                        "2018-4-6 3:00",
+                        "2018-4-6 4:00",
+                        "2018-4-6 5:00",
+                        "2018-4-6 6:00",
+                        "2018-4-6 7:00",
+                        "2018-4-6 10:00",
+                        "2018-4-6 11:00",
+                        "2018-4-7 3:00",
+                        "2018-4-7 4:00",
+                        "2018-4-7 5:00",
+                        "2018-4-7 6:00",
+                        "2018-4-7 7:00",
+                        "2018-4-8 3:00",
+                        "2018-4-8 4:00",
+                        "2018-4-8 5:00",
+                        "2018-4-8 6:00",
+                        "2018-4-8 7:00",
+                        "2018-4-9 23:00",
+                        "2018-4-10 00:00",
+                        "2018-4-12 6:00",
+                    ];
+
+                    let hopeOut = [
+                        ["2018-4-6 3:00", "2018-4-6 8:00"],
+                        ["2018-4-6 10:00", "2018-4-6 12:00"],
+                        ["2018-4-7 3:00", "2018-4-7 8:00"],
+                        ["2018-4-8 3:00", "2018-4-8 8:00"],
+                        ["2018-4-9 23:00", "2018-4-10 01:00"],
+                        ["2018-4-12 6:00", "2018-4-12 7:00"]
+                    ];
+                       
+                    function getTimeDuration(input) {
+                        let ret = [];
+                        let timeCollection=[];
+                        let begin=[];
+                        let end=[];
+                        //你的实现
+                        input.forEach(function(item){
+                        	let it=new Date(item)
+                        	let time=it.getTime();
+                        	timeCollection.push(time);                       	
+                        })
+
+                       for(var i=0;i<timeCollection.length;i++){
+                       	//孤立的时间设置为开始和结束并加入各自的数组中，然后分别设置开始和结束数组
+                       	   if(timeCollection[i]-timeCollection[i-1]!=3600000&&timeCollection[i+1]-timeCollection[i]!=3600000){
+                       	   	   begin.push(input[i]);
+                       	   	   let x=new Date(new Date(input[i]).getTime()+3600000)
+                       	   	   end.push(x.getFullYear()+"-"+(x.getMonth()+1)+"-"+x.getDate()+" "+x.getHours()+":00");
+                       	   }else if (timeCollection[i]-timeCollection[i-1]!=3600000&&timeCollection[i+1]-timeCollection[i]==3600000){
+                        		begin.push(input[i]);     		
+                        	}else if(timeCollection[i]-timeCollection[i-1]==3600000&&timeCollection[i+1]-timeCollection[i]!=3600000){
+                        		let x=new Date(new Date(input[i]).getTime()+3600000)
+                        		end.push(x.getFullYear()+"-"+(x.getMonth()+1)+"-"+x.getDate()+" "+x.getHours()+":00");
+                        	}
+                        }
+                       //console.log(begin);
+                       //console.log(end);
+                       //数组整合为二维数组
+                       end.forEach(function(currentValue,index){  
+                       	    ret.push([begin[index],currentValue]);
+                       })
+                       
+                        return ret;
+                    }
+
+                    let out = getTimeDuration(input);
+                    console.log(out);
+		</script>
+	</body>
+</html>
